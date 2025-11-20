@@ -1,5 +1,5 @@
 // बैक-एंड सर्वर से कनेक्ट करें
-const socket = io('http://localhost:3000'); 
+cconst socket = io('https://aviator-realtime-game.onrender.com');
 
 // HTML एलिमेंट्स
 const multiplierDisplay = document.getElementById('multiplier');
