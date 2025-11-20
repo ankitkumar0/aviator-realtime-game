@@ -1,0 +1,234 @@
+/*--- 1. Global Reset & Base Styles ---*/
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a2e; /* डार्क बैकग्राउंड */
+    color: white;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* ऊपर से शुरू करें */
+    min-height: 100vh;
+}
+
+/*--- 2. Main Game Container (PC और Mobile दोनों के लिए) ---*/
+.game-container {
+    width: 100%;
+    max-width: 1000px; /* डेस्कटॉप पर अधिकतम चौड़ाई */
+    margin: 20px auto;
+    background-color: #000;
+    border-radius: 15px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/*--- 3. Header & Balance ---*/
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #2a002a;
+    border-bottom: 2px solid #3a003a;
+}
+.header .logo { font-size: 1.5em; font-weight: bold; color: #ff0055; }
+.header .balance { font-size: 1.1em; color: #00ff7f; }
+.header .menu-icon { font-size: 1.5em; cursor: pointer; }
+
+/*--- 4. Game Status Bar (Past Multipliers) ---*/
+.game-status-bar {
+    display: flex;
+    padding: 10px 15px;
+    background-color: #2a002a;
+    border-bottom: 1px solid #3a003a;
+    overflow-x: auto; /* हॉरिजॉन्टल स्क्रॉलिंग यदि बहुत अधिक आइटम हैं */
+    white-space: nowrap;
+    gap: 10px;
+}
+.game-status-item {
+    background-color: #4a004a;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #ccc;
+    flex-shrink: 0; /* आइटम्स को सिकुड़ने से रोकता है */
+}
+.game-status-item.crashed { background-color: #e53935; color: white; }
+.game-status-item.active { background-color: #00bf73; color: white; }
+
+/*--- 5. Game Display & Canvas ---*/
+.game-display {
+    aspect-ratio: 16/9; /* PC पर वाइडस्क्रीन अनुपात */
+    background-color: #20203a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+}
+#multiplier {
+    font-size: 6em; /* PC पर बड़ा मल्टीप्लायर */
+    font-weight: 900;
+    color: #00bf73;
+    text-shadow: 0 0 20px rgba(0, 255, 127, 0.9);
+    z-index: 10;
+    transition: font-size 0.3s;
+}
+#multiplier.crashed {
+    color: #e53935;
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.9);
+}
+
+#gameCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/*--- 6. Betting Section ---*/
+.bet-section {
+    background-color: #2a002a;
+    padding: 20px;
+    border-top: 1px solid #3a003a;
+}
+
+.bet-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Input Group Styles */
+.bet-input-group {
+    display: flex;
+    flex-grow: 1;
+    background-color: #4a004a;
+    border-radius: 10px;
+}
+.bet-input-group button {
+    background-color: #5a005a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.bet-input-group button:hover { background-color: #6a006a; }
+
+.bet-input-group input[type="number"] {
+    flex-grow: 1;
+    background-color: #4a004a;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 1.3em;
+    padding: 10px 5px;
+    -moz-appearance: textfield;
+}
+
+/* Action Button Styles */
+.action-button {
+    flex-grow: 1;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+#placeBetBtn { background-color: #00bf73; }
+#placeBetBtn:hover:not(:disabled) { background-color: #00995c; }
+
+#cashOutBtn { background-color: #e53935; }
+#cashOutBtn:hover:not(:disabled) { background-color: #c2312f; }
+
+.action-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Tabs and Bets List */
+.tab-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+.tab-buttons button {
+    background-color: #3a003a;
+    color: #bbb;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.tab-buttons button.active {
+    background-color: #ff0055;
+    color: white;
+}
+
+.bets-list {
+    margin-top: 15px;
+    font-size: 0.9em;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #1a1a2e;
+    border-radius: 8px;
+}
+.bets-list p {
+    margin: 5px 0;
+    padding: 5px;
+    border-bottom: 1px dotted #3a003a;
+}
+.bets-list p:last-child {
+    border-bottom: none;
+}
+
+/*--- 7. Media Queries (Mobile Optimization) ---*/
+@media (max-width: 768px) {
+    /* टैबलेट और मोबाइल के लिए */
+    .game-container {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+    
+    .game-display {
+        aspect-ratio: unset; /* मोबाइल पर अनुपात हटा दें */
+        height: 40vh; /* स्क्रीन की ऊंचाई का 40% */
+    }
+
+    #multiplier {
+        font-size: 4em; /* मोबाइल पर थोड़ा छोटा करें */
+    }
+
+    .bet-section {
+        padding: 15px;
+    }
+
+    .bet-controls {
+        flex-direction: column; /* बटन और इनपुट ग्रुप को एक के नीचे एक करें */
+        gap: 10px;
+    }
+
+    /* बेटिंग इनपुट और एक्शन बटन की चौड़ाई को 100% कर दें */
+    .bet-input-group,
+    .action-button {
+        width: 100%;
+        flex-grow: 0;
+    }
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Aviator Clone - Responsive</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <div class="game-container">
+        
+        <div class="header">
+            <span class="logo">AVIATOR</span>
+            <span class="balance">3000.00 USD</span>
+            <span class="menu-icon">☰</span>
+        </div>
+
+        <div class="game-status-bar" id="gameStatusBar">
+            <span class="game-status-item crashed">2.48x</span>
+            <span class="game-status-item active">1.00x</span>
+            <span class="game-status-item crashed">3.07x</span>
+        </div>
+
+        <div class="game-display">
+            <h1 id="multiplier">Connecting...</h1>
+            <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <div class="bet-section">
+            <div class="bet-controls">
+                
+                <div class="bet-input-group">
+                    <button id="betDecrease">-</button>
+                    <input type="number" id="betAmount" value="10" min="1">
+                    <button id="betIncrease">+</button>
+                </div>
+                
+                <button id="placeBetBtn" class="action-button">Place Bet</button>
+                <button id="cashOutBtn" class="action-button" disabled>Cash Out (0.00)</button>
+
+                </div>
+            
+            <div class="tab-buttons">
+                <button class="active">All Bets</button>
+                <button>My Bets</button>
+                <button>Top</button>
+            </div>
+            
+            <div class="bets-list">
+                <p>User***1 placed 10.00 USD</p>
+                <p>User***2 cashed out at 1.55x (15.50 USD)</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
